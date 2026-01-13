@@ -1,0 +1,24 @@
+{
+  "name": "website-planner",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "framer-motion": "^12.26.2",
+    "lucide-react": "^0.562.0",
+    "next": "^16.1.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-markdown": "^10.1.0"
+  },
+  "description": "Ce projet est une application web développée avec **Next.js** permettant de recueillir les besoins d'un client pour la création d'un site web. Il guide l'utilisateur à travers un processus interactif de plus de 25 étapes (\"Wizard\") pour définir l'identité visuelle, les fonctionnalités et le contenu de leur futur site.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
