@@ -2,14 +2,16 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Layout, X, Zap, BookOpen } from 'lucide-react';
+import { Layout, X, Zap, BookOpen, Menu } from 'lucide-react';
 import styles from './Header.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
     const [activeModal, setActiveModal] = useState(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const handleReset = () => {
+        setMobileMenuOpen(false);
         if (confirm("Êtes-vous sûr de vouloir commencer un nouveau projet ? Tout le progrès actuel sera perdu.")) {
             localStorage.removeItem('wizard_step');
             localStorage.removeItem('wizard_data');
@@ -17,14 +19,19 @@ export default function Header() {
         }
     };
 
+    const openModal = (modalName) => {
+        setMobileMenuOpen(false);
+        setActiveModal(modalName);
+    };
+
     const Modal = ({ title, children, onClose }) => (
         <div className={styles.overlay} onClick={onClose}>
             <motion.div
                 className={styles.modal}
                 onClick={e => e.stopPropagation()}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
             >
                 <div className={styles.modalHeader}>
                     <h2 className={styles.modalTitle}>{title}</h2>
@@ -48,14 +55,15 @@ export default function Header() {
                         <span className={styles.logoText}>WebPlanner</span>
                     </div>
 
+                    {/* Desktop Navigation */}
                     <nav className={styles.nav}>
                         <Link href="/" onClick={handleReset} className={styles.navLink}>Accueil</Link>
 
-                        <div className={styles.navLink} onClick={() => setActiveModal('features')}>
+                        <div className={styles.navLink} onClick={() => openModal('features')}>
                             Fonctionnalités
                         </div>
 
-                        <div className={styles.navLink} onClick={() => setActiveModal('guide')}>
+                        <div className={styles.navLink} onClick={() => openModal('guide')}>
                             Guide
                         </div>
 
@@ -63,10 +71,68 @@ export default function Header() {
                             Nouveau Projet
                         </div>
                     </nav>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        className={styles.mobileMenuBtn}
+                        onClick={() => setMobileMenuOpen(true)}
+                        aria-label="Menu"
+                    >
+                        <Menu size={24} />
+                    </button>
                 </div>
             </header>
 
             <AnimatePresence>
+                {/* Mobile Menu Overlay */}
+                {mobileMenuOpen && (
+                    <motion.div
+                        className={styles.mobileMenu}
+                        initial={{ x: '100%' }}
+                        animate={{ x: 0 }}
+                        exit={{ x: '100%' }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                    >
+                        <div className={styles.mobileMenuHeader}>
+                            <div className={styles.logo}>
+                                <Layout size={28} className={styles.logoIcon} />
+                                <span className={styles.logoText}>WebPlanner</span>
+                            </div>
+                            <button
+                                className={styles.closeButton}
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                <X size={28} />
+                            </button>
+                        </div>
+
+                        <nav className={styles.mobileNav}>
+                            <Link href="/" onClick={handleReset} className={styles.mobileNavLink}>
+                                <span>Accueil</span>
+                            </Link>
+
+                            <div className={styles.mobileNavLink} onClick={() => openModal('features')}>
+                                <span>Fonctionnalités</span>
+                                <Zap size={20} />
+                            </div>
+
+                            <div className={styles.mobileNavLink} onClick={() => openModal('guide')}>
+                                <span>Guide</span>
+                                <BookOpen size={20} />
+                            </div>
+
+                            <div
+                                className={styles.mobileNavLink}
+                                onClick={handleReset}
+                                style={{ color: 'var(--primary, #8b5cf6)' }}
+                            >
+                                <span>Nouveau Projet</span>
+                                <Layout size={20} />
+                            </div>
+                        </nav>
+                    </motion.div>
+                )}
+
                 {activeModal === 'features' && (
                     <Modal title="Fonctionnalités" onClose={() => setActiveModal(null)}>
                         <p>WebPlanner est un outil puissant conçu pour simplifier la création de votre cahier des charges.</p>
