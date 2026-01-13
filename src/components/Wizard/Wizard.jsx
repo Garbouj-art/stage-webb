@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, Save, CheckCircle, Smartphone, Monitor, Type, Palette, Layout, Globe, ArrowRight, Download } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Save, CheckCircle, Smartphone, Monitor, Type, Palette, Layout, Globe, ArrowRight, Download, Gift } from 'lucide-react';
 import styles from './Wizard.module.css';
 import { steps } from '@/data/steps';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -11,12 +11,16 @@ import ReactMarkdown from 'react-markdown';
 export default function Wizard() {
     const [currentStep, setCurrentStep] = useLocalStorage('wizard_step', 0);
     const [formData, setFormData] = useLocalStorage('wizard_data', {});
+    const [startTime, setStartTime] = useLocalStorage('wizard_start_time', null);
     const [isClient, setIsClient] = useState(false);
     const stepperRef = useRef(null);
 
     useEffect(() => {
         setIsClient(true);
-    }, []);
+        if (!startTime) {
+            setStartTime(Date.now());
+        }
+    }, [startTime, setStartTime]);
 
     useEffect(() => {
         if (stepperRef.current) {
@@ -210,20 +214,39 @@ export default function Wizard() {
         }
     };
 
-    const renderRecap = () => (
-        <div className={styles.recapList}>
-            {steps.map((s) => (
-                <div key={s.id} className={styles.recapItem}>
-                    <span className={styles.recapLabel}>{s.category} - {s.question}</span>
-                    <span className={styles.recapValue}>
-                        {Array.isArray(formData[s.id])
-                            ? formData[s.id].join(', ')
-                            : (formData[s.id] ? formData[s.id].toString() : 'Non spécifié')}
-                    </span>
-                </div>
-            ))}
-        </div>
-    );
+    const renderRecap = () => {
+        const minutesTaken = startTime ? (Date.now() - startTime) / 60000 : 0;
+        const isEligible = minutesTaken < 5;
+
+        return (
+            <div className={styles.recapList}>
+                {isEligible && (
+                    <div className={styles.discountCard}>
+                        <Gift size={32} className={styles.discountIcon} />
+                        <div className={styles.discountContent}>
+                            <h3>Félicitations ! 🚀</h3>
+                            <p>
+                                Vous avez complété le formulaire en moins de 5 minutes ! ({minutesTaken.toFixed(1)} min)
+                                <br />
+                                Voici votre code de réduction -20% : <span className={styles.discountCode}>FAST5</span>
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {steps.map((s) => (
+                    <div key={s.id} className={styles.recapItem}>
+                        <span className={styles.recapLabel}>{s.category} - {s.question}</span>
+                        <span className={styles.recapValue}>
+                            {Array.isArray(formData[s.id])
+                                ? formData[s.id].join(', ')
+                                : (formData[s.id] ? formData[s.id].toString() : 'Non spécifié')}
+                        </span>
+                    </div>
+                ))}
+            </div>
+        );
+    };
 
     const renderStepper = () => {
         // Extract unique categories
@@ -280,6 +303,18 @@ export default function Wizard() {
                 {renderStepper()}
 
                 <div className={styles.header}>
+                    {/* Discount Challenge Header */}
+                    {!isLastStep && currentStep === 0 && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={styles.discountBadge}
+                        >
+                            <Gift size={16} />
+                            <span>Challenge: Complétez en &lt; 5 min pour -20% !</span>
+                        </motion.div>
+                    )}
+
                     {!isLastStep ? (
                         <>
                             <span className={styles.category}>{step.category}</span>
