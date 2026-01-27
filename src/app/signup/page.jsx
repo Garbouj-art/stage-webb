@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './signup.module.css';
 
 export default function Signup() {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -25,6 +27,7 @@ export default function Signup() {
         e.preventDefault();
         // Handle signup logic here
         console.log('Signup data:', formData);
+        router.push('/planner');
     };
 
     return (

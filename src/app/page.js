@@ -1,17 +1,5 @@
-import Wizard from '@/components/Wizard/Wizard';
-import Header from '@/components/Header/Header';
-import styles from './page.module.css';
-
-export const metadata = {
-  title: 'Concepteur de Site Web - ISET Nabeul',
-  description: 'Application interactive pour définir votre projet web.',
-};
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <Header />
-      <Wizard />
-    </main>
-  );
+  redirect('/login');
 }

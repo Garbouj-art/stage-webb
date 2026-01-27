@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 
 export default function Login() {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -22,6 +24,7 @@ export default function Login() {
         e.preventDefault();
         // Handle login logic here
         console.log('Login data:', formData);
+        router.push('/planner');
     };
 
     return (

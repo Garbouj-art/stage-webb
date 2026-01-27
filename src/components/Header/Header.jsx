@@ -15,7 +15,7 @@ export default function Header() {
         if (confirm("Êtes-vous sûr de vouloir commencer un nouveau projet ? Tout le progrès actuel sera perdu.")) {
             localStorage.removeItem('wizard_step');
             localStorage.removeItem('wizard_data');
-            window.location.href = "/";
+            window.location.href = "/planner";
         }
     };
 
@@ -57,7 +57,7 @@ export default function Header() {
 
                     {/* Desktop Navigation */}
                     <nav className={styles.nav}>
-                        <Link href="/" onClick={handleReset} className={styles.navLink}>Accueil</Link>
+                        <Link href="/planner" onClick={handleReset} className={styles.navLink}>Accueil</Link>
 
                         <div className={styles.navLink} onClick={() => openModal('features')}>
                             Fonctionnalités
@@ -111,7 +111,7 @@ export default function Header() {
                         </div>
 
                         <nav className={styles.mobileNav}>
-                            <Link href="/" onClick={handleReset} className={styles.mobileNavLink}>
+                            <Link href="/planner" onClick={handleReset} className={styles.mobileNavLink}>
                                 <span>Accueil</span>
                             </Link>
 
