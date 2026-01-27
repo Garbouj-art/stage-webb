@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Layout, X, Zap, BookOpen, Menu } from 'lucide-react';
+import { Layout, X, Zap, BookOpen, Menu, User } from 'lucide-react';
 import styles from './Header.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -67,6 +67,10 @@ export default function Header() {
                             Guide
                         </div>
 
+                        <Link href="/login" className={styles.navLink}>
+                            Connexion
+                        </Link>
+
                         <div className={`${styles.navLink} ${styles.cta}`} onClick={handleReset}>
                             Nouveau Projet
                         </div>
@@ -120,6 +124,11 @@ export default function Header() {
                                 <span>Guide</span>
                                 <BookOpen size={20} />
                             </div>
+
+                            <Link href="/login" className={styles.mobileNavLink}>
+                                <span>Connexion</span>
+                                <User size={20} />
+                            </Link>
 
                             <div
                                 className={styles.mobileNavLink}
