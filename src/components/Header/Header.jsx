@@ -51,8 +51,7 @@ export default function Header() {
             <header className={styles.header}>
                 <div className={styles.container}>
                     <div className={styles.logo}>
-                        <Layout size={28} className={styles.logoIcon} />
-                        <span className={styles.logoText}>WebPlanner</span>
+                        <img src="/images/logo.jpg" alt="LazaarWorks" style={{ height: '35px' }} />
                     </div>
 
                     {/* Desktop Navigation */}
@@ -99,8 +98,7 @@ export default function Header() {
                     >
                         <div className={styles.mobileMenuHeader}>
                             <div className={styles.logo}>
-                                <Layout size={28} className={styles.logoIcon} />
-                                <span className={styles.logoText}>WebPlanner</span>
+                                <img src="/images/logo.jpg" alt="LazaarWorks" style={{ height: '35px' }} />
                             </div>
                             <button
                                 className={styles.closeButton}
@@ -144,7 +142,7 @@ export default function Header() {
 
                 {activeModal === 'features' && (
                     <Modal title="Fonctionnalités" onClose={() => setActiveModal(null)}>
-                        <p>WebPlanner est un outil puissant conçu pour simplifier la création de votre cahier des charges.</p>
+                        <p>LazaarWorks est un outil puissant conçu pour simplifier la création de votre cahier des charges.</p>
 
                         <h3>✨ Sauvegarde Automatique</h3>
                         <p>Ne perdez jamais votre progression. Vos réponses sont enregistrées localement sur votre navigateur en temps réel.</p>
@@ -159,7 +157,7 @@ export default function Header() {
 
                 {activeModal === 'guide' && (
                     <Modal title="Guide d'utilisation" onClose={() => setActiveModal(null)}>
-                        <p>Bienvenue sur WebPlanner ! Voici comment créer le plan parfait pour votre site web :</p>
+                        <p>Bienvenue sur LazaarWorks ! Voici comment créer le plan parfait pour votre site web :</p>
 
                         <h3>1. Répondez aux questions</h3>
                         <p>Parcourez les 9 étapes du formulaire. Chaque section couvre un aspect essentiel de votre futur site (Design, Technique, Contenu...).</p>
